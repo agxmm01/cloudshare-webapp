@@ -9,10 +9,11 @@ const Transactions = () => {
     const [transactions, setTransactions] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const {getToken} = useAuth();
+    const {getToken, isSignedIn} = useAuth();
 
     useEffect(() => {
         const fetchTransactions = async () => {
+            if (!isSignedIn) return;
             try {
                 setLoading(true);
                 const token = await getToken();
@@ -36,7 +37,7 @@ const Transactions = () => {
             }
         };
         fetchTransactions();
-    }, [getToken]);
+    }, [getToken, isSignedIn]);
 
     const formatDate = (dateString) => {
         const options = {

@@ -14,7 +14,7 @@ import FileListRow from "../components/FileListRow.jsx";
 const MyFiles = () => {
     const [files, setFiles] = useState([]);
     const [viewMode, setViewMode] = useState("list");
-    const {getToken} = useAuth();
+    const {getToken, isSignedIn} = useAuth();
     const navigate = useNavigate();
     const [deleteConfirmation, setDeleteConfirmation] = useState({
         isOpen: false,
@@ -131,8 +131,10 @@ const MyFiles = () => {
     }
 
     useEffect(() => {
-        fetchFiles();
-    }, [getToken]);
+        if (isSignedIn) {
+            fetchFiles();
+        }
+    }, [getToken, isSignedIn]);
 
     const getFileIcon = (file) => {
         const extenstion = file.name.split('.').pop().toLowerCase();

@@ -12,7 +12,7 @@ const Subscription = () => {
     const [messageType, setMessageType] = useState("");
     const [razorpayLoaded, setRazorpayLoaded] = useState(false);
 
-    const {getToken} = useAuth();
+    const {getToken, isSignedIn} = useAuth();
     const razorpayScriptRef = useRef(null);
     const {credits, setCredits, fetchUserCredits} = useContext(UserCreditsContext);
 
@@ -78,7 +78,8 @@ const Subscription = () => {
 
     // Fetch user credits on component mount
     useEffect(() => {
-        const fetchUserCredits = async () => {
+        const fetchUserCreditsLocal = async () => {
+            if (!isSignedIn) return;
             try {
                 const token = await getToken();
                 const response = await axios.get(apiEndpoints.GET_CREDITS, {
@@ -94,8 +95,8 @@ const Subscription = () => {
             }
         };
 
-        fetchUserCredits();
-    }, [getToken]);
+        fetchUserCreditsLocal();
+    }, [getToken, isSignedIn]);
 
     const handlePurchase = async (plan) => {
         if (!razorpayLoaded) {
@@ -121,7 +122,7 @@ const Subscription = () => {
             });
 
             const options = {
-                key: import.meta.env.VITE_RAZORPAY_KEY,
+                key: import.meta.env.VITE_RAZORPAY_KEY_ID,
                 amount: plan.price * 100,
                 currency: "INR",
                 name: "CloudShare",
