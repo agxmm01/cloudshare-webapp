@@ -6,7 +6,7 @@ import {AlertCircle} from "lucide-react";
 import axios from "axios";
 import {apiEndpoints} from "../util/apiEndpoints.js";
 import UploadBox from "../components/UploadBox.jsx";
-
+import CreditLiquid from "../components/CreditLiquid.jsx";
 
 const Upload = () => {
     const [files, setFiles] = useState([]);
@@ -83,23 +83,36 @@ const Upload = () => {
 
     return (
         <DashboardLayout activeMenu="Upload">
-            <div className="p-6">
+            <div className="p-6 max-w-7xl mx-auto">
                 {message && (
-                    <div className={`mb-6 p-4 rounded-lg flex items-center gap-3 ${messageType === 'error' ? 'bg-red-50 text-red-700': messageType === 'success' ? 'bg-green-50 text-green-700': 'bg-blue-50 text-blue-700'}`}>
+                    <div className={`mb-6 p-4 rounded-xl flex items-center gap-3 font-medium ${messageType === 'error' ? 'bg-red-50 text-red-700 border border-red-200': messageType === 'success' ? 'bg-green-50 text-green-700 border border-green-200': 'bg-blue-50 text-blue-700 border border-blue-200'}`}>
                         {messageType === 'error' && <AlertCircle size={20} />}
                         {message}
                     </div>
                 )}
 
-                <UploadBox
-                    files={files}
-                    onFileChange={handleFileChange}
-                    onUpload={handleUpload}
-                    uploading={uploading}
-                    onRemoveFile={handleRemoveFile}
-                    remainingCredits={credits}
-                    isUploadDisabled={isUploadDisabled}
-                />
+                <div className="grid lg:grid-cols-3 gap-8">
+                    {/* Main Upload Area */}
+                    <div className="lg:col-span-2">
+                        <UploadBox
+                            files={files}
+                            onFileChange={handleFileChange}
+                            onUpload={handleUpload}
+                            uploading={uploading}
+                            onRemoveFile={handleRemoveFile}
+                            remainingCredits={credits}
+                            isUploadDisabled={isUploadDisabled}
+                        />
+                    </div>
+
+                    {/* Credit Capacity Animation */}
+                    <div className="lg:col-span-1">
+                        <CreditLiquid 
+                            remaining={credits} 
+                            uploadingCount={files.length} 
+                        />
+                    </div>
+                </div>
             </div>
         </DashboardLayout>
     )

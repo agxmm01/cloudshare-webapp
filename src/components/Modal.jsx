@@ -96,7 +96,7 @@ const Modal = ({
                         <button
                             type="button"
                             onClick={onClose}
-                            className="text-gray-400 hover:text-gray-500 focus:outline-none"
+                            className="text-gray-600 dark:text-gray-400 hover:text-gray-500 focus:outline-none"
                         >
                             <span className="sr-only">Close</span>
                             <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
