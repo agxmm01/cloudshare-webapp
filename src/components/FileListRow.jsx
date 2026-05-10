@@ -6,9 +6,9 @@ import {
     Lock,
     Trash2
 } from "lucide-react";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const FileListRow = ({ file, onDownload, onDelete, onTogglePublic, onShareLink, getFileIcon }) => {
+const FileListRow = ({ file, onDownload, onDelete, onTogglePublic, onShareLink, getFileIcon, onPreview }) => {
     const navigate = useNavigate();
 
     return (
@@ -71,18 +71,12 @@ const FileListRow = ({ file, onDownload, onDelete, onTogglePublic, onShareLink, 
                         </button>
                     </div>
                     <div className="flex justify-center">
-                        {file.isPublic ? (
-                            <a
-                                href={`/file/${file.id}`}
-                                title="View File"
-                                target="_blank"
-                                rel="noreferrer"
-                                className="text-gray-500 hover:text-blue-600">
-                                <Eye size={18} />
-                            </a>
-                        ) : (
-                            <span className="w-[18px]"></span>
-                        )}
+                        <button
+                            onClick={() => onPreview(file)}
+                            title="Preview File"
+                            className="text-gray-500 hover:text-purple-600">
+                            <Eye size={18} />
+                        </button>
                     </div>
                 </div>
             </td>

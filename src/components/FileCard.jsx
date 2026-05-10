@@ -1,7 +1,7 @@
-import {useState} from "react";
-import {Copy, Download, Eye, FileIcon, FileText, Globe, Image, Lock, Music, Trash2, Video} from "lucide-react";
+import { useState } from "react";
+import { Copy, Download, Eye, FileIcon, FileText, Globe, Image, Lock, Music, Trash2, Video } from "lucide-react";
 
-const FileCard = ({file, onDelete, onTogglePublic, onDownload, onShareLink}) => {
+const FileCard = ({ file, onDelete, onTogglePublic, onDownload, onShareLink, onPreview }) => {
     const [showActions, setShowActions] = useState(false);
 
     const getFileIcon = (file) => {
@@ -34,7 +34,7 @@ const FileCard = ({file, onDelete, onTogglePublic, onDownload, onShareLink}) => 
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
-        return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric'});
+        return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
     }
 
     return (
@@ -49,10 +49,10 @@ const FileCard = ({file, onDelete, onTogglePublic, onDownload, onShareLink}) => 
 
             {/* Public/private badgge*/}
             <div className="absolute top-2 right-2">
-                <div className={`rounded-full p-1.5 ${file.isPublic ? 'bg-green-100': 'bg-gray-100'}`} title={file.isPublic ? "Public": "Private"}>
+                <div className={`rounded-full p-1.5 ${file.isPublic ? 'bg-green-100' : 'bg-gray-100'}`} title={file.isPublic ? "Public" : "Private"}>
                     {file.isPublic ? (
                         <Globe size={14} className="text-green-600" />
-                    ): (
+                    ) : (
                         <Lock size={14} className="text-gray-600" />
                     )}
                 </div>
@@ -73,7 +73,7 @@ const FileCard = ({file, onDelete, onTogglePublic, onDownload, onShareLink}) => 
             </div>
 
             {/* action button */}
-            <div className={`absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent flex items-end justify-center p-4 transition-opacity duration-300 ${showActions ? 'opacity-100': 'opacity-0'}`}>
+            <div className={`absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent flex items-end justify-center p-4 transition-opacity duration-300 ${showActions ? 'opacity-100' : 'opacity-0'}`}>
                 <div className="flex gap-3 w-full justify-center">
                     {file.isPublic && (
                         <button
@@ -84,11 +84,12 @@ const FileCard = ({file, onDelete, onTogglePublic, onDownload, onShareLink}) => 
                         </button>
                     )}
 
-                    {file.isPublic && (
-                        <a href={`/file/${file.id}`} title="View File" target="_blank" rel="noreferrer" className="p-2 bg-white/90 rounded-full hover:bg-white transition-colors text-gray-700 hover:text-gray-900">
-                            <Eye size={18} />
-                        </a>
-                    )}
+                    <button
+                        onClick={() => onPreview(file)}
+                        title="Preview"
+                        className="p-2 cursor-pointer bg-white/90 rounded-full hover:bg-white transition-colors text-purple-600 hover:text-purple-700">
+                        <Eye size={18} />
+                    </button>
 
                     <button
                         onClick={() => onDownload(file)}
@@ -99,9 +100,9 @@ const FileCard = ({file, onDelete, onTogglePublic, onDownload, onShareLink}) => 
 
                     <button
                         onClick={() => onTogglePublic(file)}
-                        title={file.isPublic ? "Make Private": "Make Public"}
+                        title={file.isPublic ? "Make Private" : "Make Public"}
                         className="p-2 bg-white/90 rounded-full hover:bg-white cursor-pointer transition-colors text-amber-600 hover:text-amber-700">
-                        {file.isPublic ? <Lock size={18}/>: <Globe size={18} />}
+                        {file.isPublic ? <Lock size={18} /> : <Globe size={18} />}
                     </button>
 
                     <button

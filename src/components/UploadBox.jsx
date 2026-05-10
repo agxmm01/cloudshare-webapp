@@ -1,5 +1,6 @@
 import { ArrowUpFromLine, X, FileIcon, Loader2 } from 'lucide-react';
 import { useRef } from 'react';
+import BorderGlow from './BorderGlow.jsx';
 
 const UploadBox = ({ files, onFileChange, onUpload, uploading, onRemoveFile, remainingCredits, isUploadDisabled }) => {
     const fileInputRef = useRef(null);
@@ -47,29 +48,36 @@ const UploadBox = ({ files, onFileChange, onUpload, uploading, onRemoveFile, rem
                 </div>
             </div>
 
-            <div
-                className="border-dashed border-2 border-gray-300 rounded-lg p-8 text-center bg-white cursor-pointer hover:border-blue-500 transition-colors"
-                onDragOver={handleDragOver}
-                onDrop={handleDrop}
-                onClick={handleBrowseClick}
+            <BorderGlow
+                glowColor="268 100 76"
+                borderRadius={12}
+                backgroundColor="transparent"
+                className="cursor-pointer"
             >
-                <div className="flex flex-col items-center justify-center">
-                    <div className="p-3 rounded-full bg-blue-50 mb-4">
-                        <ArrowUpFromLine size={24} className="text-blue-600" />
+                <div
+                    className="border-dashed border-2 border-slate-300 dark:border-slate-600 rounded-xl p-8 text-center bg-slate-50/50 dark:bg-slate-800/50 hover:border-purple-500 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors h-full"
+                    onDragOver={handleDragOver}
+                    onDrop={handleDrop}
+                    onClick={handleBrowseClick}
+                >
+                    <div className="flex flex-col items-center justify-center">
+                        <div className="p-3 rounded-full bg-purple-100 dark:bg-purple-900/50 mb-4">
+                            <ArrowUpFromLine size={24} className="text-purple-600 dark:text-purple-400" />
+                        </div>
+                        <p className="text-slate-700 dark:text-slate-300 mb-1">Drag and drop files here</p>
+                        <p className="text-slate-500 dark:text-slate-400 text-sm mb-2">or click to browse ({remainingCredits} credits remaining)</p>
+                        <input
+                            ref={fileInputRef}
+                            type="file"
+                            multiple
+                            onChange={onFileChange}
+                            className="hidden"
+                            accept="*/*"
+                            max={5}
+                        />
                     </div>
-                    <p className="text-gray-700 mb-1">Drag and drop files here</p>
-                    <p className="text-gray-500 text-sm mb-2">or click to browse ({remainingCredits} credits remaining)</p>
-                    <input
-                        ref={fileInputRef}
-                        type="file"
-                        multiple
-                        onChange={onFileChange}
-                        className="hidden"
-                        accept="*/*"
-                        max={5}
-                    />
                 </div>
-            </div>
+            </BorderGlow>
 
             {files.length > 0 && (
                 <div className="mt-6">
@@ -89,7 +97,7 @@ const UploadBox = ({ files, onFileChange, onUpload, uploading, onRemoveFile, rem
                                         e.stopPropagation();
                                         onRemoveFile(index);
                                     }}
-                                    className="text-gray-400 hover:text-red-500 transition-colors"
+                                    className="text-gray-600 dark:text-gray-400 hover:text-red-500 transition-colors"
                                     disabled={uploading}
                                 >
                                     <X size={18} />

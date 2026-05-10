@@ -1,12 +1,13 @@
 import DashboardLayout from "../layout/DashboardLayout.jsx";
-import {useAuth} from '@clerk/react';
-import {useContext, useEffect, useState} from "react";
-import {UserCreditsContext} from "../context/UserCreditsContext.jsx";
+import { useAuth } from '@clerk/react';
+import { useContext, useEffect, useState } from "react";
+import { UserCreditsContext } from "../context/UserCreditsContext.jsx";
 import axios from "axios";
-import {apiEndpoints} from "../util/apiEndpoints.js";
-import {Loader2} from "lucide-react";
+import { apiEndpoints } from "../util/apiEndpoints.js";
+import { Loader2 } from "lucide-react";
 import DashboardUpload from "../components/DashboardUpload.jsx";
 import RecentFiles from "../components/RecentFiles.jsx";
+import { RowSkeleton } from "../components/Skeletons.jsx";
 
 const Dashboard = () => {
     const [files, setFiles] = useState([]);
@@ -16,7 +17,7 @@ const Dashboard = () => {
     const [message, setMessage] = useState('');
     const [messageType, setMessageType] = useState('');
     const [remainingUploads, setRemainingUploads] = useState(5);
-    const {getToken} = useAuth();
+    const { getToken } = useAuth();
     const { fetchUserCredits } = useContext(UserCreditsContext);
     const MAX_FILES = 5;
 
@@ -135,18 +136,23 @@ const Dashboard = () => {
 
     return (
         <DashboardLayout activeMenu="Dashboard">
-            <div className="p-6">
-                <h1 className="text-2xl font-bold mb-6">My Drive</h1>
-                <p className="text-gray-600 mb-6">Upload, manage, and share your files securely</p>
+            <div>
+                {/* Page header */}
+                <div className="mb-8">
+                    <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">My Drive</h1>
+                    <p className="text-slate-900 dark:text-slate-100 mt-1 text-sm">Upload, manage, and share your files securely</p>
+                </div>
                 {message && (
-                    <div className={`mb-6 p-4 rounded-lg flex items-center gap-3 ${
-                        messageType === 'error' ? 'bg-red-50 text-red-700' :
+                    <div className={`mb-6 p-4 rounded-lg flex items-center gap-3 ${messageType === 'error' ? 'bg-red-50 text-red-700' :
                             messageType === 'success' ? 'bg-green-50 text-green-700' :
                                 'bg-purple-50 text-purple-700'
-                    }`}>
+                        }`}>
                         {message}
                     </div>
                 )}
+
+                {/* Storage Analytics Overview Removed */}
+
                 <div className="flex flex-col md:flex-row gap-6">
                     {/*Left column*/}
                     <div className="w-full md:w-[40%]">
@@ -163,9 +169,28 @@ const Dashboard = () => {
                     {/*right column*/}
                     <div className="w-full md:w-[60%]">
                         {loading ? (
-                            <div className="bg-white rounded-lg shadow p-8 flex flex-col items-center justify-center min-h-[300px]">
-                                <Loader2 size={40} className="text-purple-500 animate-spin mb-4" />
-                                <p className="text-gray-500">Loading your files...</p>
+                            <div className="w-full">
+                                <div className="flex items-center justify-between mb-4">
+                                    <h2 className="text-lg font-medium text-slate-900 dark:text-slate-100">Recent Files</h2>
+                                </div>
+                                <div className="bg-white dark:bg-slate-800 rounded-lg shadow overflow-hidden">
+                                    <table className="min-w-full">
+                                        <thead className="bg-gray-50 dark:bg-slate-700/50 text-xs font-medium text-slate-900 dark:text-slate-100 uppercase tracking-wider">
+                                            <tr>
+                                                <th className="px-4 py-3 text-left">Name</th>
+                                                <th className="px-4 py-3 text-left">Size</th>
+                                                <th className="px-4 py-3 text-left">Uploaded by</th>
+                                                <th className="px-4 py-3 text-left">Modified</th>
+                                                <th className="px-4 py-3 text-left">Sharing</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="divide-y divide-gray-200 dark:divide-slate-700">
+                                            {[1, 2, 3, 4, 5].map((i) => (
+                                                <RowSkeleton key={i} />
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         ) : (
                             <RecentFiles files={files} />
