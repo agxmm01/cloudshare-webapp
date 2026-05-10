@@ -27,7 +27,13 @@ const FilePreviewModal = ({ isOpen, onClose, file }) => {
                     responseType: 'blob'
                 });
                 
-                const url = window.URL.createObjectURL(new Blob([response.data], { type: response.data.type || getContentType(file.name) }));
+                let contentType = response.data.type;
+                // If the server returns a generic binary type or it's missing, infer it from the file extension
+                if (!contentType || contentType === 'application/octet-stream') {
+                    contentType = getContentType(file.name);
+                }
+                
+                const url = window.URL.createObjectURL(new Blob([response.data], { type: contentType }));
                 setBlobUrl(url);
             } catch (err) {
                 console.error("Error fetching preview:", err);
