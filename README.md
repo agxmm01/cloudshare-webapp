@@ -1,4 +1,4 @@
-# CloudShare - Frontend
+# CloudShare
 
 A modern, full-featured file sharing and cloud storage web application built with React and Vite. CloudShare allows users to securely upload, manage, share, and track their files with an intuitive dashboard interface.
 
