@@ -46,7 +46,7 @@ const App = () => {
                         <Route path="/my-files" element={<ProtectedRoute><MyFiles /></ProtectedRoute>} />
                         <Route path="/subscriptions" element={<ProtectedRoute><Subscription /></ProtectedRoute>} />
                         <Route path="/transactions" element={<ProtectedRoute><Transactions /></ProtectedRoute>} />
-                        <Route path="file/:fileId" element={<PublicFileView />} />
+                        <Route path="/file/:fileId" element={<PublicFileView />} />
                         <Route path="/*" element={<RedirectToSignIn />} />
                     </Routes>
                 </Suspense>
