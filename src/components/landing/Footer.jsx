@@ -57,7 +57,7 @@ const Footer = () => {
 
                 <div className="border-t border-slate-100 dark:border-slate-800 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
                     {/* Copyright — slate-600 */}
-                    <p className="text-xs text-slate-600 dark:text-slate-500">© 2025 CloudShare, Inc. All rights reserved.</p>
+                    <p className="text-xs text-slate-600 dark:text-slate-500">© 2026 CloudShare, Inc. All rights reserved.</p>
                     <p className="text-xs text-slate-600 dark:text-slate-500">Built with ❤️ for secure file sharing</p>
                 </div>
             </div>
